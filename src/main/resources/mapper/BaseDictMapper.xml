@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gqz.crm.mapper.BaseDictMapper">
+
+    <resultMap id="BaseResultMap" type="com.gqz.crm.pojo.BaseDict">
+            <id property="dict_id" column="dict_id" jdbcType="VARCHAR"/>
+            <result property="dict_type_code" column="dict_type_code" jdbcType="VARCHAR"/>
+            <result property="dict_type_name" column="dict_type_name" jdbcType="VARCHAR"/>
+            <result property="dict_item_name" column="dict_item_name" jdbcType="VARCHAR"/>
+            <result property="dict_item_code" column="dict_item_code" jdbcType="VARCHAR"/>
+            <result property="dict_sort" column="dict_sort" jdbcType="INTEGER"/>
+            <result property="dict_enable" column="dict_enable" jdbcType="CHAR"/>
+            <result property="dict_memo" column="dict_memo" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        dict_id,dict_type_code,dict_type_name,
+        dict_item_name,dict_item_code,dict_sort,
+        dict_enable,dict_memo
+    </sql>
+</mapper>
