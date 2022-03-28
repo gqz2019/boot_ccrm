@@ -13,8 +13,9 @@
     <!-- Custom CSS -->
     <link th:href="@{/css/sb-admin-2.css}" rel="stylesheet"/>
     <!-- Custom Fonts -->
-    <link th:href="@{css/font-awesome.min.css}" rel="stylesheet" type="text/css"/>
-    <link th:href="@{css/boot-crm.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/css/boot-crm.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/css/paging.css}" rel="stylesheet" type="text/css">
 </head>
 <body>
 <div id="wrapper">
@@ -194,7 +195,7 @@
                         </div>
                     </li>
                     <li>
-                        <a href="${pageContext.request.contextPath }/customer/list.action" class="active">
+                        <a th:href="@{/customer/list}" class="active">
                             <i class="fa fa-edit fa-fw"></i> 客户管理
                         </a>
                     </li>
@@ -219,50 +220,37 @@
         <!-- /.row -->
         <div class="panel panel-default">
             <div class="panel-body">
-                <form class="form-inline" method="get"
-                      action="${pageContext.request.contextPath }/customer/list.action">
+                <form class="form-inline" method="get" th:action="@{/customer/list}">
                     <div class="form-group">
                         <label for="customerName">客户名称</label>
                         <input type="text" class="form-control" id="customerName"
-                               value="${custName }" name="custName"/>
+                               value="小张" name="name"/>
                     </div>
                     <div class="form-group">
                         <label for="customerFrom">客户来源</label>
-                        <select class="form-control" id="customerFrom" name="custSource">
+                        <select class="form-control" id="customerFrom" name="source">
                             <option value="">--请选择--</option>
-                            <c:forEach items="${fromType}" var="item">
-                                <option value="${item.dict_id}"
-                                <c:if test="${item.dict_id == custSource}">selected</c:if>
-                                >
-                                ${item.dict_item_name }
-                                </option>
-                            </c:forEach>
+                            <option th:each="item,itemStat:${fromType}"
+                                    th:value="${item.id}"
+                                    th:text="${item.itemName}"></option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="custIndustry">所属行业</label>
-                        <select class="form-control" id="custIndustry" name="custIndustry">
+                        <select class="form-control" id="custIndustry" name="industry">
                             <option value="">--请选择--</option>
-                            <c:forEach items="${industryType}" var="item">
-                                <option value="${item.dict_id}"
-                                <c:if test="${item.dict_id == custIndustry}"> selected</c:if>
-                                >
-                                ${item.dict_item_name }
-                                </option>
-                            </c:forEach>
+                            <option th:each="item,itemStat:${industryType}"
+                                    th:value="${item.id}"
+                                    th:text="${item.itemName}"></option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="custLevel">客户级别</label>
                         <select class="form-control" id="custLevel" name="custLevel">
                             <option value="">--请选择--</option>
-                            <c:forEach items="${levelType}" var="item">
-                                <option value="${item.dict_id}"
-                                <c:if test="${item.dict_id == custLevel}"> selected</c:if>
-                                >
-                                ${item.dict_item_name }
-                                </option>
-                            </c:forEach>
+                            <option th:each="item,itemStat:${levelType}"
+                                    th:value="${item.id}"
+                                    th:text="${item.itemName}"></option>
                         </select>
                     </div>
                     <button type="submit" class="btn btn-primary">查询</button>
@@ -290,27 +278,24 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <c:forEach items="${page.rows}" var="row">
-                            <tr>
-                                <td>${row.cust_id}</td>
-                                <td>${row.cust_name}</td>
-                                <td>${row.cust_source}</td>
-                                <td>${row.cust_industry}</td>
-                                <td>${row.cust_level}</td>
-                                <td>${row.cust_phone}</td>
-                                <td>${row.cust_mobile}</td>
-                                <td>
-                                    <a href="#" class="btn btn-primary btn-xs" data-toggle="modal"
-                                       data-target="#customerEditDialog" onclick="editCustomer(${row.cust_id})">修改</a>
-                                    <a href="#" class="btn btn-danger btn-xs" onclick="deleteCustomer(${row.cust_id})">删除</a>
-                                </td>
-                            </tr>
-                        </c:forEach>
+                        <tr th:each="item,itemStat:${customers}">
+                            <td th:text="${item.id}"></td>
+                            <td th:text="${item.name}"></td>
+                            <td th:text="${item.source}"></td>
+                            <td th:text="${item.industry}"></td>
+                            <td th:text="${item.level}"></td>
+                            <td th:text="${item.phone}"></td>
+                            <td th:text="${item.mobile}"></td>
+                            <td>
+                                <a href="#" class="btn btn-primary btn-xs" data-toggle="modal"
+                                   data-target="#customerEditDialog" onclick="editCustomer(${row.cust_id})">修改</a>
+                                <a href="#" class="btn btn-danger btn-xs"
+                                   onclick="deleteCustomer(${row.cust_id})">删除</a>
+                            </td>
+                        </tr>
                         </tbody>
                     </table>
-                    <div class="col-md-12 text-right">
-                        <itheima:page url="${pageContext.request.contextPath }/customer/list.action"/>
-                    </div>
+                    <div class="col-md-12 text-right" id="pageToolbar"></div>
                     <!-- /.panel-body -->
                 </div>
                 <!-- /.panel -->
@@ -545,6 +530,7 @@
 <script th:src="@{/js/dataTables.bootstrap.min.js}"></script>
 <!-- Custom Theme JavaScript -->
 <script th:src="@{/js/sb-admin-2.js}"></script>
+<script th:src="@{/js/paging.js}"></script>
 <!-- 编写js代码 -->
 <script type="text/javascript">
     //清空新建客户窗口中的数据
@@ -624,6 +610,17 @@
                 });
         }
     }
+
+    $('#pageToolbar').Paging({
+        pagesize: 5, count: getCount(), toolbar: false, hash: true, changePagesize: function (ps) {
+            // this.pagesize = ps
+            vue.pageSize = ps
+            // self.findAll()
+        }, callback: function (a) {
+            vue.pageNum = a
+            // self.findAll()
+        }
+    });
 </script>
 </body>
 </html>

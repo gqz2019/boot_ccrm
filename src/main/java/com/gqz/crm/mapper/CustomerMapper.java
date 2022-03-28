@@ -1,11 +1,11 @@
 package com.gqz.crm.mapper;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.gqz.crm.DTO.QueryPageDto;
 import com.gqz.crm.pojo.Customer;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author gqz20

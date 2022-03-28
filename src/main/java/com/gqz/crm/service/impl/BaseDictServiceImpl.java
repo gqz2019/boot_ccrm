@@ -6,6 +6,8 @@ import com.gqz.crm.service.BaseDictService;
 import com.gqz.crm.mapper.BaseDictMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @author gqz20
  */
@@ -13,6 +15,11 @@ import org.springframework.stereotype.Service;
 public class BaseDictServiceImpl extends ServiceImpl<BaseDictMapper, BaseDict>
         implements BaseDictService {
 
+    @Override
+    public List<BaseDict> getBaseDictByTypeCode(String typeCode) {
+        List<BaseDict> baseDicts = lambdaQuery().eq(BaseDict::getTypeCode, typeCode).list();
+        return baseDicts;
+    }
 }
 
 

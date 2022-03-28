@@ -44,7 +44,7 @@
         </where>
     </sql>
 
-    <select id="getCustomerPage" resultType="com.gqz.crm.pojo.Customer" parameterType="com.gqz.crm.DTO.QueryPageDto">
+    <select id="getCustomerPage" resultMap="BaseResultMap" parameterType="com.gqz.crm.DTO.QueryPageDto">
         select
         <include refid="Base_Column_List"></include>
         from
