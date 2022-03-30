@@ -1,22 +1,24 @@
 package com.gqz.crm.controller;
 
-import com.gqz.crm.DTO.QueryPageDto;
+import com.gqz.crm.DTO.PageResult;
 import com.gqz.crm.pojo.BaseDict;
 import com.gqz.crm.pojo.Customer;
+import com.gqz.crm.pojo.SysUser;
 import com.gqz.crm.service.BaseDictService;
 import com.gqz.crm.service.CustomerService;
+import com.gqz.crm.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -27,12 +29,12 @@ import java.util.List;
  **/
 @RequestMapping("customer")
 @Controller
-//@ConfigurationProperties(prefix = "customer",ignoreUnknownFields = false)
 @PropertySource("classpath:resource.properties")
 public class CustomerController {
 
     private CustomerService customerService;
     private BaseDictService baseDictService;
+    private SysUserService sysUserService;
 
     /**
      * 客户来源
@@ -51,27 +53,105 @@ public class CustomerController {
     private String LEVEL_TYPE;
 
     @Autowired
-    public CustomerController(CustomerService customerService, BaseDictService baseDictService) {
+    public CustomerController(CustomerService customerService, BaseDictService baseDictService, SysUserService sysUserService) {
         this.customerService = customerService;
         this.baseDictService = baseDictService;
+        this.sysUserService = sysUserService;
     }
 
-    @GetMapping("list")
-    public String getCustomersByPage(@RequestBody(required = false) QueryPageDto<Customer> queryParameter,
-                                     Model model) {
-        List<Customer> customerPage = customerService.getCustomerPage(queryParameter);
-        //客户来源
+    @RequestMapping(value = "list")
+    public String list(@RequestParam(defaultValue = "1")Integer page,
+                       @RequestParam(defaultValue = "10")Integer rows,
+                       String custName, String custSource, String custIndustry,String custLevel, Model model) {
+
+        PageResult<Customer> customers = customerService.findCustomerList(page, rows, custName, custSource, custIndustry, custLevel);
+        model.addAttribute("page", customers);
+
         List<BaseDict> fromType = baseDictService.getBaseDictByTypeCode(FROM_TYPE);
-        //客户所属行业
+
         List<BaseDict> industryType = baseDictService.getBaseDictByTypeCode(INDUSTRY_TYPE);
-        //客户级别
+
         List<BaseDict> levelType = baseDictService.getBaseDictByTypeCode(LEVEL_TYPE);
 
-        model.addAttribute("customers", customerPage);
         model.addAttribute("fromType", fromType);
         model.addAttribute("industryType", industryType);
         model.addAttribute("levelType", levelType);
-
+        model.addAttribute("custName", custName);
+        model.addAttribute("custSource", custSource);
+        model.addAttribute("custIndustry", custIndustry);
+        model.addAttribute("custLevel", custLevel);
         return "customer";
+    }
+    @RequestMapping(value = "listPage")
+    public String listPage(@RequestParam(defaultValue = "1")Integer page,
+                       @RequestParam(defaultValue = "10")Integer rows,
+                       String custName, String custSource, String custIndustry,String custLevel, Model model) {
+
+        PageResult<Customer> customers = customerService.findCustomerList(page, rows, custName, custSource, custIndustry, custLevel);
+        model.addAttribute("page", customers);
+
+        List<BaseDict> fromType = baseDictService.getBaseDictByTypeCode(FROM_TYPE);
+
+        List<BaseDict> industryType = baseDictService.getBaseDictByTypeCode(INDUSTRY_TYPE);
+
+        List<BaseDict> levelType = baseDictService.getBaseDictByTypeCode(LEVEL_TYPE);
+
+        model.addAttribute("fromType", fromType);
+        model.addAttribute("industryType", industryType);
+        model.addAttribute("levelType", levelType);
+        model.addAttribute("custName", custName);
+        model.addAttribute("custSource", custSource);
+        model.addAttribute("custIndustry", custIndustry);
+        model.addAttribute("custLevel", custLevel);
+        return "/customer";
+    }
+    @RequestMapping("/create")
+    @ResponseBody
+    public String customerCreate(Customer customer, Authentication authentication) {
+
+        UserDetails principal = (UserDetails) authentication.getPrincipal();
+
+        SysUser loginUser = sysUserService.lambdaQuery().eq(SysUser::getUserCode, principal.getUsername()).one();
+
+        customer.setCreateId(loginUser.getUserId());
+
+        customer.setCreationTime(LocalDateTime.now());
+
+        int rows = customerService.createCustomer(customer);
+        if (rows > 0) {
+            return "OK";
+        }else {
+            return "FAIL";
+        }
+    }
+
+    @RequestMapping("getCustomerById")
+    @ResponseBody
+    public Customer getCustomerById(Integer id){
+        Customer customer = customerService.getCustomerById(id);
+        return customer;
+    }
+
+    @RequestMapping("update")
+    @ResponseBody
+    public String customerUpdate(Customer customer) {
+        int rows = customerService.updateCustomer(customer);
+        if (rows > 0) {
+            return "OK";
+        }else {
+            return "FAIL";
+        }
+
+    }
+    @RequestMapping("delete")
+    @ResponseBody
+    public String customerdelete(Integer id) {
+        int rows = customerService.deleteCustomer(id);
+        if (rows > 0) {
+            return "OK";
+        }else {
+            return "FAIL";
+        }
+
     }
 }

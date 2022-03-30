@@ -1,15 +1,10 @@
 package com.gqz.crm.security;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.gqz.crm.pojo.SysUser;
 import com.gqz.crm.service.SysUserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -44,8 +39,9 @@ public class SecurityServiceImpl implements UserDetailsService {
             mav.addObject("msg","不存在名称为："+username+"的用户");
             throw new RuntimeException("不存在这个用户");
         }
+
         UserDetails userDetails = User.builder()
-                .username(user.getUserName())
+                .username(user.getUserCode())
                 .password(user.getUserPassword())
                 .accountExpired(false)
                 .accountLocked(false)

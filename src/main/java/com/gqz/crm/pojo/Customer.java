@@ -11,11 +11,10 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * 
  * @author gqz20
  * @TableName customer
  */
-@TableName(value ="customer")
+@TableName(value = "customer")
 @Data
 @Accessors(chain = true)
 public class Customer implements Serializable {
@@ -99,4 +98,9 @@ public class Customer implements Serializable {
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
+
+    @TableField(exist = false)
+    private Integer start;
+    @TableField(exist = false)
+    private Integer rows;
 }

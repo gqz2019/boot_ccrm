@@ -11,17 +11,17 @@ import org.springframework.web.bind.annotation.GetMapping;
  **/
 @Controller
 public class RouteController {
-    @GetMapping("home")
+    @GetMapping("tohome")
     public String toLogin() {
         return "login";
     }
 
-    @GetMapping("customer")
+    @GetMapping("tocustomer")
     public String toCustomer() {
         return "customer";
     }
-    @GetMapping("error")
+    @GetMapping("toerror")
     public String toError(){
-        return "error";
+        return "/404.html";
     }
 }

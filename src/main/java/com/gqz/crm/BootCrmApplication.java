@@ -12,9 +12,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @MapperScan("com.gqz.crm.mapper")
 @EnableTransactionManagement
 public class BootCrmApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(BootCrmApplication.class, args);
     }
-
 }

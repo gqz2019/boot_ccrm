@@ -13,4 +13,11 @@
 		</dir>
 	</classpath>
 
+	<web>
+		<link target="/">
+			<dir name="C:/idea_gqz/boot_crm/src/main/webapp">
+			</dir>
+		</link>
+	</web>
+
 </application>

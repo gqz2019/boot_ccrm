@@ -1,13 +1,8 @@
 package com.gqz.crm.service;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.gqz.crm.DTO.QueryPageDto;
-import com.gqz.crm.pojo.Customer;
 import com.baomidou.mybatisplus.extension.service.IService;
-
-import java.util.List;
-import java.util.Map;
+import com.gqz.crm.DTO.PageResult;
+import com.gqz.crm.pojo.Customer;
 
 /**
  *
@@ -17,8 +12,45 @@ public interface CustomerService extends IService<Customer> {
     /**
      * Gets customer page.
      *
-     * @param queryString the query string
+     * @param page         the page
+     * @param rows         the rows
+     * @param custName     the cust name
+     * @param custSource   the cust source
+     * @param custIndustry the cust industry
+     * @param custLevle    the cust levle
      * @return the customer page
      */
-    List<Customer> getCustomerPage(QueryPageDto<Customer> queryString);
+    PageResult<Customer> findCustomerList(Integer page, Integer rows, String custName, String custSource, String custIndustry, String custLevle);
+
+    /**
+     * Create customer.
+     *
+     * @param customer the customer
+     * @return the int
+     */
+    int createCustomer(Customer customer);
+
+    /**
+     * Gets customer by id.
+     *
+     * @param id the id
+     * @return the customer by id
+     */
+    Customer getCustomerById(Integer id);
+
+    /**
+     * Update customer int.
+     *
+     * @param customer the customer
+     * @return the int
+     */
+    int updateCustomer(Customer customer);
+
+    /**
+     * Delete customer int.
+     *
+     * @param id the id
+     * @return the int
+     */
+    int deleteCustomer(Integer id);
 }

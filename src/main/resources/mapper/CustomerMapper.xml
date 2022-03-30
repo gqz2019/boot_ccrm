@@ -30,21 +30,21 @@
     <sql id="whereSql">
         <where>
             <if test="name neq null">
-                and cust_name like concat('%',#{queryString.name},'%')
+                and cust_name like concat('%',#{name},'%')
             </if>
             <if test="source neq null">
-                and cust_source = #{queryString.source}
+                and cust_source = #{source}
             </if>
             <if test="industry neq null">
-                and cust_industry = #{queryString.industry}
+                and cust_industry = #{industry}
             </if>
             <if test="level neq null">
-                and cust_level = #{queryString.level}
+                and cust_level = #{level}
             </if>
         </where>
     </sql>
 
-    <select id="getCustomerPage" resultMap="BaseResultMap" parameterType="com.gqz.crm.DTO.QueryPageDto">
+    <select id="getCustomerPage" resultMap="BaseResultMap" parameterType="customer">
         select
         <include refid="Base_Column_List"></include>
         from
@@ -60,13 +60,11 @@
         left join
         (select dict_id,dict_item_name from boot_crm.base_dict where dict_type_code='006') d
         on a.cust_level=d.dict_id
-        <where>
-            <if test="queryString neq null and queryString neq ''">
-                <include refid="whereSql"></include>
-            </if>
-        </where>
-        <if test="currentPage neq null and pageSize neq null">
-            limit #{currentPage},#{pageSize}
+
+        <include refid="whereSql"></include>
+
+        <if test="start neq null and rows neq null">
+            limit #{start},#{rows}
         </if>
     </select>
 </mapper>

@@ -1,8 +1,14 @@
 server:
   port: 8000
+  servlet:
+    jsp:
+      init-parameters:
+        develoment: true
+      registered: true
 logging:
   level:
     com.gqz.crm: debug
+    org.springframework: debug
 spring:
   application:
     name: boot_crm
@@ -17,11 +23,13 @@ spring:
     locale: zh
     time-zone: GMT+8
     date-format: yyyy-MM-dd hh:mm:ss
-  thymeleaf:
-    cache: false
-    encoding: UTF-8
+  mvc:
+    view:
+      prefix: /jsp/
+      suffix: .jsp
   transaction:
     default-timeout: 3000
+
 mybatis-plus:
   mapper-locations:
     - classpath:mapper/*.xml
