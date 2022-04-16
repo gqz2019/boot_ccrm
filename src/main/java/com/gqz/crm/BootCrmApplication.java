@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
- * @author gqz20
+ * @author 20
  */
 @SpringBootApplication
 @MapperScan("com.gqz.crm.mapper")

@@ -24,7 +24,7 @@ import java.util.List;
 /**
  * <p></p>
  *
- * @author gqz20
+ * @author 20
  * @create 2022-03-27 10:57
  **/
 @RequestMapping("customer")

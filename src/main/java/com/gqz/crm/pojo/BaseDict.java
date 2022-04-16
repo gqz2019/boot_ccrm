@@ -10,7 +10,7 @@ import java.io.Serializable;
 
 /**
  * 
- * @author gqz20
+ * @author 20
  * @TableName base_dict
  */
 @TableName(value ="base_dict")

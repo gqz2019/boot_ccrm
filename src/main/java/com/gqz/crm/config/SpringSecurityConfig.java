@@ -15,7 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 /**
  * <p>安全配置</p>
  *
- * @author gqz20
+ * @author 2.0
  * @create 2022-03-26 12:28
  **/
 @Configuration
@@ -68,6 +68,5 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf()
                 .disable();
-
     }
 }

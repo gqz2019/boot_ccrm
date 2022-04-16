@@ -6,7 +6,7 @@ import com.gqz.crm.pojo.Customer;
 import java.util.List;
 
 /**
- * @author gqz20
+ * @author 20
  * @Entity com.gqz.crm.pojo.Customer
  */
 public interface CustomerMapper extends BaseMapper<Customer> {

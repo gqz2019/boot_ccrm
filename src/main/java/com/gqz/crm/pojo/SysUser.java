@@ -7,11 +7,12 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 
 /**
  * 
- * @author gqz20
+ * @author 20
  * @TableName sys_user
  */
 @TableName(value ="sys_user")
@@ -34,6 +35,7 @@ public class SysUser implements Serializable {
      * 用户名称
      */
     @TableField(value = "user_name")
+    @Pattern(regexp = "^\\d&")
     private String userName;
 
     /**

@@ -15,7 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 /**
  * <p></p>
  *
- * @author gqz20
+ * @author 20
  * @create 2022-03-26 15:38
  **/
 @Component

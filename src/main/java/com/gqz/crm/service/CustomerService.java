@@ -6,7 +6,7 @@ import com.gqz.crm.pojo.Customer;
 
 /**
  *
- * @author gqz20
+ * @author 20
  */
 public interface CustomerService extends IService<Customer> {
     /**

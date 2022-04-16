@@ -9,6 +9,7 @@ logging:
   level:
     com.gqz.crm: debug
     org.springframework: debug
+    org.springframework.boot.autoconfigure: error
 spring:
   application:
     name: boot_crm

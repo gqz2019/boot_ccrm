@@ -1,13 +1,13 @@
 package com.gqz.crm.service;
 
-import com.gqz.crm.pojo.BaseDict;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.gqz.crm.pojo.BaseDict;
 
 import java.util.List;
 
 /**
  *
- * @author gqz20
+ * @author 20
  */
 public interface BaseDictService extends IService<BaseDict> {
 

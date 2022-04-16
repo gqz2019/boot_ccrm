@@ -11,7 +11,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * @author gqz20
+ * @author 20
  * @TableName customer
  */
 @TableName(value = "customer")
