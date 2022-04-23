@@ -82,29 +82,8 @@ public class CustomerController {
         model.addAttribute("custLevel", custLevel);
         return "customer";
     }
-    @RequestMapping(value = "listPage")
-    public String listPage(@RequestParam(defaultValue = "1")Integer page,
-                       @RequestParam(defaultValue = "10")Integer rows,
-                       String custName, String custSource, String custIndustry,String custLevel, Model model) {
 
-        PageResult<Customer> customers = customerService.findCustomerList(page, rows, custName, custSource, custIndustry, custLevel);
-        model.addAttribute("page", customers);
 
-        List<BaseDict> fromType = baseDictService.getBaseDictByTypeCode(FROM_TYPE);
-
-        List<BaseDict> industryType = baseDictService.getBaseDictByTypeCode(INDUSTRY_TYPE);
-
-        List<BaseDict> levelType = baseDictService.getBaseDictByTypeCode(LEVEL_TYPE);
-
-        model.addAttribute("fromType", fromType);
-        model.addAttribute("industryType", industryType);
-        model.addAttribute("levelType", levelType);
-        model.addAttribute("custName", custName);
-        model.addAttribute("custSource", custSource);
-        model.addAttribute("custIndustry", custIndustry);
-        model.addAttribute("custLevel", custLevel);
-        return "/customer";
-    }
     @RequestMapping("/create")
     @ResponseBody
     public String customerCreate(Customer customer, Authentication authentication) {
